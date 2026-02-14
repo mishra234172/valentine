@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+body{
+    margin:0;
+    padding:0;
+    height:100vh;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    font-family:Arial, Helvetica, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+    overflow:hidden;
+}
+
+
+.container{
+margin-top:60px;
+}
+
+
+
+h1{
+    font-size:45px;
+}
+
+p{
+    font-size:20px;
+}
+
+button{
+    padding:14px 30px;
+    border:none;
+    border-radius:30px;
+    font-size:18px;
+    margin:15px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+#yes{
+    background:#ff2e63;
+    color:white;
+    box-shadow:0 0 15px rgba(255,46,99,.7);
+}
+
+#yes:hover{
+    transform:scale(1.1);
+}
+
+#no{
+    background:white;
+    color:#ff2e63;
+    position:absolute;
+}
+
+.heart{
+    position:fixed;
+    bottom:-10px;
+    font-size:24px;
+    animation:float 5s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(0);}
+    to{transform:translateY(-110vh);}
+    
+}
+@keyframes beat{
+0%{transform:scale(1)}
+50%{transform:scale(1.25)}
+100%{transform:scale(1)}
+}
+@media(max-width:768px){
+.container div{
+flex-direction:column !important;
+text-align:center !important;
+}
+}
+
+
+</style>
+
+</head>
+
+<body>
+<audio id="bgmusic" preload="auto" loop>
+  <source src="songs.mp3" type="audio/mpeg">
+</audio>
+<div id="startScreen" style="position:fixed;inset:0;background:#111;display:flex;justify-content:center;align-items:center;z-index:9999;flex-direction:column;color:white;font-family:Arial">
+
+<div style="font-size:70px;animation:beat 1s infinite">❤️</div>
+<h2>Someone made something for you…</h2>
+<p style="opacity:.7">Tap anywhere to open</p>
+
+</div>
+
+
+
+
+<div class="container">
+<h1>Hey ❤️</h1>
+<p>I wanted to tell you something...</p>
+<p>You make my normal days happier 🙂</p>
+
+<h2>Will you be my Valentine? 🌹</h2>
+
+<button id="yes">Yes 😍</button> <button id="no">No 🙄</button>
+
+</div>
+
+<script>
+// YES button message
+const start = document.getElementById("startScreen");
+const music = document.getElementById("bgmusic");
+
+start.addEventListener("click",()=>{
+start.style.display="none";
+});
+
+
+const yesBtn = document.getElementById("yes");
+
+yesBtn.addEventListener("click", function(){
+
+    // SONG START HERE
+    const music = document.getElementById("bgmusic");
+    music.currentTime = 0;
+    music.volume = 0.45;
+    music.play().catch(()=>{});
+
+    document.querySelector(".container").innerHTML = `
+
+<div style="display:flex;justify-content:center;align-items:center;gap:60px;flex-wrap:wrap;padding:60px;max-width:1100px;margin:auto;">
+
+<!-- LEFT : PHOTO SLIDESHOW -->
+
+<div style="width:280px;height:380px;border-radius:18px;overflow:hidden;box-shadow:0 0 25px rgba(0,0,0,.4)">
+<img id="slide" src="./photos/1.jpg" style="width:100%;height:100%;object-fit:cover;" />
+</div>
+
+<!-- RIGHT : TEXT -->
+
+<div style="max-width:520px;text-align:left;">
+
+<h1 style="font-size:34px;">Wait… it’s really a YES? ❤️🥹</h1>
+
+<p style="font-size:18px;line-height:1.8;">
+Sach bolu…<br><br>
+
+Tumse baat karna mere din ka best part ban gaya hai 🙂<br>
+Tumhari messages ka wait rehta hai,<br>
+aur jab phone pe tumhara naam dikhta hai na…<br>
+bina wajah smile aa jaati hai ❤️<br><br>
+
+<b>You are my favorite notification 💌</b><br><br>
+
+Care, effort aur bad jokes lifetime free rahenge 😂
+
+</p>
+
+<h2 style="margin-top:20px;">Happy Valentine's Day 🌹</h2>
+
+</div>
+
+`;
+
+
+});
+
+
+
+// NO button run away
+const noBtn = document.getElementById("no");
+
+noBtn.addEventListener("mouseenter", moveButton);
+noBtn.addEventListener("click", moveButton);
+
+function moveButton(){
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+
+// floating hearts after YES
+startHearts();
+startSlideshow();
+
+function startHearts()
+{
+setInterval(()=>{
+let h=document.createElement("div");
+h.innerHTML="❤️";
+h.style.position="fixed";
+h.style.bottom="-10px";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize="24px";
+h.style.animation="float 5s linear infinite";
+h.style.zIndex = "0";
+document.body.appendChild(h);
+},300);
+}
+function startSlideshow(){
+const pics=["./photos/1.jpg","./photos/2.jpg","./photos/4.jpg"];
+let p=0;
+
+setInterval(()=>{
+const img=document.getElementById("slide");
+if(!img) return;
+p=(p+1)%pics.length;
+img.src=pics[p];
+},2500);
+}
+
+</script>
+
+
+
